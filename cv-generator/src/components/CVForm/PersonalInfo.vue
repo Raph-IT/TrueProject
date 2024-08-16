@@ -1,41 +1,67 @@
-<!-- src/components/CVForm/PersonalInfoForm.vue -->
+<!-- src/components/CVForm/PersonalInfo.vue -->
 <script setup>
-import { ref, watch } from 'vue'
+import { reactive, watch } from 'vue'
+import { useCVStore } from '../../store/cv'
 
-const props = defineProps(['data'])
-const emit = defineEmits(['update'])
+const cvStore = useCVStore()
 
-const localData = ref({ ...props.data })
+const personalInfo = reactive({ ...cvStore.personalInfo })
 
-watch(localData, (newValue) => {
-  emit('update', newValue)
+watch(personalInfo, (newValue) => {
+  cvStore.updatePersonalInfo(newValue)
 }, { deep: true })
 </script>
 
 <template>
-  <div>
-    <h3 class="text-lg font-semibold mb-4">Informations personnelles</h3>
+  <div class="mb-6">
+    <h3 class="text-xl font-semibold mb-4">Informations personnelles</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
-        <label for="firstName" class="block text-sm font-medium text-gray-700">Prénom</label>
-        <input id="firstName" v-model="localData.firstName" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+        <label for="firstName" class="block mb-2">Prénom</label>
+        <input
+          id="firstName"
+          v-model="personalInfo.firstName"
+          class="w-full px-3 py-2 border rounded"
+          type="text"
+        >
       </div>
       <div>
-        <label for="lastName" class="block text-sm font-medium text-gray-700">Nom</label>
-        <input id="lastName" v-model="localData.lastName" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+        <label for="lastName" class="block mb-2">Nom</label>
+        <input
+          id="lastName"
+          v-model="personalInfo.lastName"
+          class="w-full px-3 py-2 border rounded"
+          type="text"
+        >
       </div>
       <div>
-        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input id="email" v-model="localData.email" type="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+        <label for="email" class="block mb-2">Email</label>
+        <input
+          id="email"
+          v-model="personalInfo.email"
+          class="w-full px-3 py-2 border rounded"
+          type="email"
+        >
       </div>
       <div>
-        <label for="phone" class="block text-sm font-medium text-gray-700">Téléphone</label>
-        <input id="phone" v-model="localData.phone" type="tel" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+        <label for="phone" class="block mb-2">Téléphone</label>
+        <input
+          id="phone"
+          v-model="personalInfo.phone"
+          class="w-full px-3 py-2 border rounded"
+          type="tel"
+        >
       </div>
     </div>
     <div class="mt-4">
-      <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-      <textarea id="description" v-model="localData.description" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
+      <label for="description" class="block mb-2">Description personnelle</label>
+      <textarea
+        id="description"
+        v-model="personalInfo.description"
+        class="w-full px-3 py-2 border rounded"
+        rows="5"
+        placeholder="Présentez-vous en quelques lignes..."
+      ></textarea>
     </div>
   </div>
 </template>
